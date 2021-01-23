@@ -9,6 +9,8 @@ import Folder from 'icons/Folder';
 import Options from 'icons/Options';
 import File from 'icons/File';
 
+import copy from 'clipboard-copy';
+
 export default function FolderItem({ store, isDir, children }) {
   const Icon = isDir ? <Folder /> : <File />;
 
@@ -18,7 +20,7 @@ export default function FolderItem({ store, isDir, children }) {
     try {
       const parametr = `${store.paths.join('/')}/${children}`;
       const parametrEncode = encodeURIComponent(parametr);
-      await navigator.clipboard.writeText(
+      await copy(
         `http://${document.location.hostname}:3232/stream/${parametrEncode}`
       );
     } catch (error) {
