@@ -1,4 +1,3 @@
-import React from 'react';
 import { useObserver } from 'mobx-react';
 import { useStores } from 'hooks/useStores';
 import { Breadcrumb, BreadcrumbItem, Icon, Flex } from '@chakra-ui/core';

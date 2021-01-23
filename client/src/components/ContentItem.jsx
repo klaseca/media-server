@@ -1,4 +1,3 @@
-import React from 'react';
 import { Flex, Menu, MenuButton, MenuList } from '@chakra-ui/core';
 import {
   ScContentItem,

@@ -1,4 +1,4 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import 'index.css';
 import App from 'App';
@@ -7,12 +7,12 @@ import * as serviceWorker from 'serviceWorker';
 import { ThemeProvider, theme, CSSReset } from '@chakra-ui/core';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <StrictMode>
     <ThemeProvider theme={theme}>
       <CSSReset />
       <App />
     </ThemeProvider>
-  </React.StrictMode>,
+  </StrictMode>,
   document.getElementById('root')
 );
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Flex } from '@chakra-ui/core';
 import BreadcrumbCstm from 'components/BreadcrumbCstm';
 import Container from 'components/Container';
