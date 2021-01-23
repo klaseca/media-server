@@ -24,7 +24,7 @@ router.get('/downloadzip/:path', async (ctx) => {
 
   ctx.set({
     'Content-Type': 'application/zip',
-    'Content-disposition': `attachment; filename=${fileName}.zip`,
+    'Content-disposition': `attachment; filename=${encodeURIComponent(fileName)}.zip`,
   });
 
   ctx.body = archive;
@@ -43,7 +43,7 @@ router.get('/download/:path', async (ctx) => {
     ctx.set({
       'Content-Length': total,
       'Content-Type': contentType(extname(pathToFile)),
-      'Content-disposition': `attachment; filename=${fileName}`,
+      'Content-disposition': `attachment; filename=${encodeURIComponent(fileName)}`,
     });
 
     ctx.status = 200;
