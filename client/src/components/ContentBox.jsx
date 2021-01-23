@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
-import { useObserver } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { useStores } from 'hooks/useStores';
 import { SimpleGrid } from '@chakra-ui/core';
 import ContentItem from 'components/ContentItem';
 
-const ContentBox = () => {
+const ContentBox = observer(() => {
   const { store } = useStores();
 
   useEffect(() => {
     store.getDirs();
   }, [store]);
 
-  return useObserver(() => (
+  return (
     <SimpleGrid
       px={['10px', '10px', '10px', 0]}
       py={'15px'}
@@ -25,7 +25,7 @@ const ContentBox = () => {
         </ContentItem>
       ))}
     </SimpleGrid>
-  ));
-}
+  );
+});
 
 export default ContentBox;

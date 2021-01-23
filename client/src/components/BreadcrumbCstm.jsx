@@ -1,4 +1,4 @@
-import { useObserver } from 'mobx-react';
+import { observer } from 'mobx-react-lite';
 import { useStores } from 'hooks/useStores';
 import { Breadcrumb, BreadcrumbItem, Icon, Flex } from '@chakra-ui/core';
 import styled from '@emotion/styled';
@@ -11,7 +11,7 @@ const ScBreadcrumb = styled(Breadcrumb)({
   display: 'flex',
 });
 
-const BreadcrumbCstm = () => {
+const BreadcrumbCstm = observer(() => {
   const { store } = useStores();
 
   const correctIndex = (index) => (index === 0 ? index + 1 : index);
@@ -23,7 +23,7 @@ const BreadcrumbCstm = () => {
     store.paths.length > index + 1 ? 'pointer' : 'default';
   const cursorMain = store.paths.length ? 'pointer' : 'default';
 
-  return useObserver(() => (
+  return (
     <Flex bg='gray.800'>
       <Container>
         <ScBreadcrumb
@@ -44,7 +44,7 @@ const BreadcrumbCstm = () => {
         </ScBreadcrumb>
       </Container>
     </Flex>
-  ));
-}
+  );
+});
 
 export default BreadcrumbCstm;
