@@ -11,7 +11,7 @@ import File from 'icons/File';
 
 import copy from 'clipboard-copy';
 
-export default function FolderItem({ store, isDir, children }) {
+export default function ContentItem({ store, isDir, children }) {
   const Icon = isDir ? <Folder /> : <File />;
 
   const openDir = (e) => (isDir ? store.getContent(e) : () => null);
