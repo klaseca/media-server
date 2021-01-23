@@ -4,7 +4,7 @@ import { useStores } from 'hooks/useStores';
 import { SimpleGrid } from '@chakra-ui/core';
 import ContentItem from 'components/ContentItem';
 
-export default function ContentBox() {
+const ContentBox = () => {
   const { store } = useStores();
 
   useEffect(() => {
@@ -27,3 +27,5 @@ export default function ContentBox() {
     </SimpleGrid>
   ));
 }
+
+export default ContentBox;

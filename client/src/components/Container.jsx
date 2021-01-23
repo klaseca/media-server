@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/core';
 
-export default function Container({ children }) {
+const Container = ({ children }) => {
   return (
     <Flex
       margin='0 auto'
@@ -11,3 +11,5 @@ export default function Container({ children }) {
     </Flex>
   );
 }
+
+export default Container;

@@ -11,7 +11,7 @@ const ScBreadcrumb = styled(Breadcrumb)({
   display: 'flex',
 });
 
-export default function BreadcrumbCstm() {
+const BreadcrumbCstm = () => {
   const { store } = useStores();
 
   const correctIndex = (index) => (index === 0 ? index + 1 : index);
@@ -46,3 +46,5 @@ export default function BreadcrumbCstm() {
     </Flex>
   ));
 }
+
+export default BreadcrumbCstm;

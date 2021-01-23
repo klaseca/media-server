@@ -10,7 +10,7 @@ import File from 'icons/File';
 
 import copy from 'clipboard-copy';
 
-export default function ContentItem({ store, isDir, children }) {
+const ContentItem = ({ store, isDir, children }) => {
   const Icon = isDir ? <Folder /> : <File />;
 
   const openDir = (e) => (isDir ? store.getContent(e) : () => null);
@@ -85,3 +85,5 @@ export default function ContentItem({ store, isDir, children }) {
     </ScContentItem>
   );
 }
+
+export default ContentItem;
