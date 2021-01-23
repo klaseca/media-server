@@ -8,47 +8,14 @@ import Folder from 'icons/Folder';
 import Options from 'icons/Options';
 import File from 'icons/File';
 
-import copy from 'clipboard-copy';
+import { createMenuItems } from 'utils/createMenuItems';
 
 const ContentItem = ({ store, isDir, children }) => {
   const Icon = isDir ? <Folder /> : <File />;
 
   const openDir = (e) => (isDir ? store.getContent(e) : () => null);
   const cursor = isDir ? 'pointer' : 'default';
-  const copyToClipboard = async () => {
-    try {
-      const parametr = `${store.paths.join('/')}/${children}`;
-      const parametrEncode = encodeURIComponent(parametr);
-      await copy(
-        `http://${document.location.hostname}:3232/stream/${parametrEncode}`
-      );
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  const menuItems = isDir
-    ? [
-        {
-          key: 'dz',
-          name: 'Download zip',
-          as: 'a',
-          href: store.downloadLink(children, 'zip'),
-        },
-      ]
-    : [
-        {
-          key: 'sl',
-          name: 'Stream link',
-          onClick: copyToClipboard,
-        },
-        {
-          key: 'dl',
-          name: 'Download',
-          as: 'a',
-          href: store.downloadLink(children),
-        },
-      ];
+  const menuItems = createMenuItems(isDir, store, children);
 
   return (
     <ScContentItem>
@@ -70,6 +37,7 @@ const ContentItem = ({ store, isDir, children }) => {
           whiteSpace='nowrap'
           overflow='hidden'
           textOverflow='ellipsis'
+          title={children}
         >
           {children}
         </Flex>
