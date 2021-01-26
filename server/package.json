@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon src/server",
-    "prod": "cross-env NODE_ENV=production node src/server"
+    "dev": "babel-watch src/server",
+    "build": "cross-env NODE_ENV=production babel src -d build"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +22,11 @@
     "mime-types": "^2.1.27"
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "babel-watch": "^7.3.0",
     "cross-env": "^7.0.2",
     "nodemon": "^2.0.4"
   }
