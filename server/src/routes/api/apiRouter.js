@@ -1,7 +1,7 @@
-const Router = require('@koa/router');
-const stream = require('./stream');
-const content = require('./content');
-const download = require('./download');
+import Router from '@koa/router';
+import stream from './stream';
+import content from './content';
+import download from './download';
 
 const apiRouter = new Router();
 
@@ -11,4 +11,4 @@ nestedRoutes.forEach((router) => {
   apiRouter.use(router.routes(), router.allowedMethods());
 });
 
-module.exports = apiRouter;
+export default apiRouter;

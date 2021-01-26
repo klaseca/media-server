@@ -1,9 +1,9 @@
-const Koa = require('koa');
-const cors = require('@koa/cors');
-const serve = require('koa-static');
-const mount = require('koa-mount');
-const { resolve } = require('path');
-const apiRouter = require('./routes/api/apiRouter');
+import Koa from 'koa';
+import cors from '@koa/cors';
+import serve from 'koa-static';
+import mount from 'koa-mount';
+import { resolve } from 'path';
+import apiRouter from 'routes/api/apiRouter';
 
 const isDev = process.env.NODE_ENV === 'development' ? true : false;
 
@@ -39,4 +39,4 @@ app.use(cors());
 
 app.use(apiRouter.routes(), apiRouter.allowedMethods());
 
-module.exports = app;
+export default app;

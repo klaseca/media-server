@@ -1,7 +1,7 @@
-const { readdir } = require('fs/promises');
-const Router = require('@koa/router');
-const { publicDirs } = require('./../../config/config');
-const { parseParams } = require('./../../utils');
+import { readdir } from 'fs/promises';
+import Router from '@koa/router';
+import { publicDirs } from 'config/config';
+import { parseParams } from 'utils';
 
 const router = new Router({ prefix: '/content' });
 
@@ -28,4 +28,4 @@ router.get('/:path', async (ctx) => {
   ctx.body = contents;
 });
 
-module.exports = router;
+export default router;

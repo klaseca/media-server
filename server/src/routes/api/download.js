@@ -1,11 +1,11 @@
-const { stat } = require('fs/promises');
-const { createReadStream } = require('fs');
-const { extname } = require('path');
-const { contentType } = require('mime-types');
-const archiver = require('archiver');
-const Router = require('@koa/router');
-const { publicDirs } = require('./../../config/config');
-const { parseParams } = require('./../../utils');
+import { stat } from 'fs/promises';
+import { createReadStream } from 'fs';
+import { extname } from 'path';
+import { contentType } from 'mime-types';
+import archiver from 'archiver';
+import Router from '@koa/router';
+import { publicDirs } from 'config/config';
+import { parseParams } from 'utils';
 
 const router = new Router();
 
@@ -53,4 +53,4 @@ router.get('/download/:path', async (ctx) => {
   }
 });
 
-module.exports = router;
+export default router;
