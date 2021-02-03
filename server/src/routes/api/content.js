@@ -2,15 +2,17 @@ import { readdir } from 'fs/promises';
 import Router from '@koa/router';
 import { publicDirs } from 'config/config';
 import { parseParams } from 'utils';
+import { orderBy } from 'lodash';
 
 const router = new Router({ prefix: '/content' });
 
 router.get('/', async (ctx) => {
-  const containers = publicDirs.map(({ alias }) => ({
+  const contents = publicDirs.map(({ alias }) => ({
     name: alias,
     isDir: true,
   }));
-  ctx.body = containers;
+  const sortContents = orderBy(contents, ['isDir', 'name'], ['desc', 'asc']);
+  ctx.body = sortContents;
 });
 
 router.get('/:path', async (ctx) => {
@@ -25,7 +27,8 @@ router.get('/:path', async (ctx) => {
       isDir,
     };
   });
-  ctx.body = contents;
+  const sortContents = orderBy(contents, ['isDir', 'name'], ['desc', 'asc']);
+  ctx.body = sortContents;
 });
 
 export default router;
