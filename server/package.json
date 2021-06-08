@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "babel-watch src/server",
-    "build": "cross-env NODE_ENV=production babel src -d build"
+    "dev": "node esbuild.config.js",
+    "build": "cross-env NODE_ENV=production node esbuild.config.js"
   },
   "keywords": [],
   "author": "",
@@ -23,12 +23,7 @@
     "mime-types": "^2.1.27"
   },
   "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "babel-plugin-module-resolver": "^4.1.0",
-    "babel-watch": "^7.3.0",
     "cross-env": "^7.0.2",
-    "nodemon": "^2.0.4"
+    "esbuild": "^0.12.6"
   }
 }
