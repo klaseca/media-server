@@ -30,7 +30,7 @@ app.on('error', (error) => {
 if (!isDev) {
   const staticPages = new Koa();
 
-  staticPages.use(serve(resolve(__dirname, './../../client/build')));
+  staticPages.use(serve(resolve(__dirname, 'static')));
 
   app.use(mount('/', staticPages));
 }
