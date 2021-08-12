@@ -7,19 +7,25 @@ import {
 import Folder from 'icons/Folder';
 import Options from 'icons/Options';
 import File from 'icons/File';
-
-import { createMenuItems } from 'utils/createMenuItems';
+import { concatPaths, createLink, createMenuItems } from 'utils/helpers';
+import { useHistory } from 'react-router-dom';
 
 const ContentItem = ({ store, isDir, children }) => {
+  const history = useHistory();
+  const { pathname } = history.location;
   const Icon = isDir ? <Folder /> : <File />;
 
-  const openDir = (e) => (isDir ? store.getContent(e) : () => null);
+  const openDir = ({ target: { textContent } }) => {
+    history.push(concatPaths(pathname, textContent));
+  };
+
   const cursor = isDir ? 'pointer' : 'default';
-  const menuItems = createMenuItems(isDir, store, children);
+
+  const menuItems = createMenuItems(isDir, store, createLink(pathname, children));
 
   return (
     <ScContentItem>
-      <Flex minW='0' flexGrow='1' cursor={cursor} onClick={(e) => openDir(e)}>
+      <Flex minW='0' flexGrow='1' cursor={cursor} onClick={openDir}>
         <Flex
           boxSizing='border-box'
           p='5px 10px'
@@ -42,7 +48,7 @@ const ContentItem = ({ store, isDir, children }) => {
           {children}
         </Flex>
       </Flex>
-      <Menu>
+      <Menu autoSelect={false}>
         <MenuButton as={ScMenuButton} rightIcon={Options}></MenuButton>
         <MenuList bg='gray.500' border='none'>
           {menuItems.map(({ name, ...props }) => (
@@ -52,6 +58,6 @@ const ContentItem = ({ store, isDir, children }) => {
       </Menu>
     </ScContentItem>
   );
-}
+};
 
 export default ContentItem;

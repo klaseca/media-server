@@ -3,13 +3,15 @@ import { observer } from 'mobx-react-lite';
 import { useStores } from 'hooks/useStores';
 import { SimpleGrid } from '@chakra-ui/core';
 import ContentItem from 'components/ContentItem';
+import { useLocation } from 'react-router-dom';
 
-const ContentBox = observer(() => {
+const ContentBox = () => {
   const { store } = useStores();
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    store.getDirs();
-  }, [store]);
+    store.loadContent(pathname);
+  }, [store, pathname]);
 
   return (
     <SimpleGrid
@@ -26,6 +28,6 @@ const ContentBox = observer(() => {
       ))}
     </SimpleGrid>
   );
-});
+};
 
-export default ContentBox;
+export default observer(ContentBox);

@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
-import store from 'store/store';
+import { Store } from 'store/store';
 
-const storeCtx = createContext({ store });
+const storeCtx = createContext({ store: new Store() });
 
 export const useStores = () => useContext(storeCtx);
