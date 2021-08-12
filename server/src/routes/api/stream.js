@@ -11,8 +11,11 @@ const router = new Router();
 router.get('/stream/:path', async (ctx) => {
   try {
     const [alias, parsePath] = parseParams(ctx.params.path);
-    const { path } = publicDirs.find((dir) => dir.alias === alias);
-    const pathToFile = `${path}/${parsePath}`;
+    const publicDir = publicDirs.find((dir) => dir.alias === alias);
+    if (!publicDir) {
+      throw new Error('Incorrect public folder');
+    }
+    const pathToFile = `${publicDir.path}/${parsePath}`;
     const statFile = await stat(pathToFile);
 
     const total = statFile.size;

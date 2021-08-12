@@ -11,8 +11,11 @@ const router = new Router();
 
 router.get('/downloadzip/:path', async (ctx) => {
   const [alias, parsePath] = parseParams(ctx.params.path);
-  const { path } = publicDirs.find((dir) => dir.alias === alias);
-  const pathToDir = `${path}/${parsePath}`;
+  const publicDir = publicDirs.find((dir) => dir.alias === alias);
+  if (!publicDir) {
+    throw new Error('Incorrect public folder');
+  }
+  const pathToDir = `${publicDir.path}/${parsePath}`;
   const fileName = parsePath.split('/').pop();
 
   const archive = archiver('zip', {
@@ -33,8 +36,11 @@ router.get('/downloadzip/:path', async (ctx) => {
 router.get('/download/:path', async (ctx) => {
   try {
     const [alias, parsePath] = parseParams(ctx.params.path);
-    const { path } = publicDirs.find((dir) => dir.alias === alias);
-    const pathToFile = `${path}/${parsePath}`;
+    const publicDir = publicDirs.find((dir) => dir.alias === alias);
+    if (!publicDir) {
+      throw new Error('Incorrect public folder');
+    }
+    const pathToFile = `${publicDir.path}/${parsePath}`;
     const statFile = await stat(pathToFile);
     const fileName = parsePath.split('/').pop();
 

@@ -17,8 +17,11 @@ router.get('/', async (ctx) => {
 
 router.get('/:path', async (ctx) => {
   const [alias, parsePath] = parseParams(ctx.params.path);
-  const { path } = publicDirs.find((dir) => dir.alias === alias);
-  const pathToDir = `${path}/${parsePath}`;
+  const publicDir = publicDirs.find((dir) => dir.alias === alias);
+  if (!publicDir) {
+    throw new Error('Incorrect public folder');
+  }
+  const pathToDir = `${publicDir.path}/${parsePath}`;
   const dirents = await readdir(pathToDir, { withFileTypes: true });
   const contents = dirents.map((content) => {
     const isDir = content.isDirectory() ? true : false;
