@@ -1,11 +1,12 @@
-const { build } = require('esbuild');
 const { resolve } = require('path');
+const { writeFile } = require('fs/promises');
+const { build } = require('esbuild');
 
 const isProd = process.env.NODE_ENV === 'production';
 
 const absWorkingDir = resolve(__dirname, 'src');
 
-const outdir = resolve(__dirname, './build');
+const outdir = resolve(__dirname, 'build');
 
 let server;
 
@@ -34,11 +35,17 @@ build({
   absWorkingDir,
   write: isProd,
   incremental: !isProd,
+  metafile: isProd,
 })
-  .then((result) => {
+  .then(async (result) => {
     console.log('Build succeeded');
     if (!isProd) {
       server = eval(result.outputFiles[0].text);
+    } else {
+      await writeFile('meta.json', JSON.stringify(result.metafile, null, 2));
     }
   })
-  .catch(() => process.exit(1));
+  .catch((error) => {
+    console.error(error);
+    process.exit(1)
+  });
