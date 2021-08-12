@@ -1,12 +1,21 @@
 import copy from 'clipboard-copy';
 
+export const concatPaths = (currentPath, addedPath) => {
+  if (currentPath === '/') {
+    return `/${addedPath}`;
+  }
+  return `${currentPath}/${addedPath}`;
+};
+
+export const createLink = (currentPath, contentName) => {
+  return encodeURIComponent(`${currentPath.slice(1)}/${contentName}`);
+};
+
 export const createMenuItems = (isDir, store, link) => {
   const copyToClipboard = async () => {
     try {
-      const parametr = `${store.paths.join('/')}/${link}`;
-      const parametrEncode = encodeURIComponent(parametr);
       await copy(
-        `http://${document.location.hostname}:3232/stream/${parametrEncode}`
+        `http://${document.location.hostname}:3232/stream/${link}`
       );
     } catch (error) {
       throw error;
