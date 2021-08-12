@@ -4,10 +4,12 @@ import { Flex, Button, MenuItem } from '@chakra-ui/core';
 export const ScContentItem = styled(Flex)({
   borderRadius: '10px',
   overflow: 'hidden',
-  boxShadow: '0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)',
   backgroundColor: '#4A5568',
   alignItems: 'center',
   padding: '5px',
+  '&:hover': {
+    boxShadow: 'rgba(0, 0, 0, 0.2) 0px 10px 15px -3px, rgba(0, 0, 0, 0.1) 0px 4px 6px -2px',
+  },
 });
 
 export const ScMenuButton = styled(Button)({
