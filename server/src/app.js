@@ -1,11 +1,11 @@
 import Koa from 'koa';
 import cors from '@koa/cors';
 import serve from 'koa-static';
-import mount from 'koa-mount';
 import { resolve } from 'path';
+import { createReadStream } from 'fs';
 import apiRouter from 'routes/api/apiRouter';
 
-const isDev = process.env.NODE_ENV === 'development' ? true : false;
+const isProd = process.env.NODE_ENV === 'production' ? true : false;
 
 const app = new Koa();
 
@@ -27,16 +27,20 @@ app.on('error', (error) => {
   }
 });
 
-if (!isDev) {
-  const staticPages = new Koa();
-
-  staticPages.use(serve(resolve(__dirname, 'static')));
-
-  app.use(mount('/', staticPages));
-}
-
 app.use(cors());
 
-app.use(apiRouter.routes(), apiRouter.allowedMethods());
+if (isProd) {
+  const staticFiles = resolve(__dirname, 'static');
+
+  app.use(serve(staticFiles));
+
+  app.use(async (ctx, next) => {
+    ctx.type = 'html';
+    ctx.body = createReadStream(resolve(staticFiles, 'index.html'));
+    await next();
+  });
+}
+
+app.use(apiRouter.routes()).use(apiRouter.allowedMethods());
 
 export default app;
