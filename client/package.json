@@ -2,7 +2,6 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "homepage": "./",
   "proxy": "http://localhost:3232",
   "dependencies": {
     "@chakra-ui/core": "^0.8.0",

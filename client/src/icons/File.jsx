@@ -1,4 +1,4 @@
-const File = () => (
+export const File = () => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     fill='currentColor'
@@ -12,5 +12,3 @@ const File = () => (
     />
   </svg>
 );
-
-export default File;

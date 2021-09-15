@@ -8,7 +8,8 @@ export const ScContentItem = styled(Flex)({
   alignItems: 'center',
   padding: '5px',
   '&:hover': {
-    boxShadow: 'rgba(0, 0, 0, 0.2) 0px 10px 15px -3px, rgba(0, 0, 0, 0.1) 0px 4px 6px -2px',
+    boxShadow:
+      'rgba(0, 0, 0, 0.2) 0px 10px 15px -3px, rgba(0, 0, 0, 0.1) 0px 4px 6px -2px',
   },
 });
 

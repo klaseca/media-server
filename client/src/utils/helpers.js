@@ -14,9 +14,7 @@ export const createLink = (currentPath, contentName) => {
 export const createMenuItems = (isDir, store, link) => {
   const copyToClipboard = async () => {
     try {
-      await copy(
-        `http://${document.location.hostname}:3232/stream/${link}`
-      );
+      await copy(`http://${document.location.hostname}:3232/stream/${link}`);
     } catch (error) {
       throw error;
     }

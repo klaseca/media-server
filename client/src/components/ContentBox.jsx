@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useStores } from 'hooks/useStores';
 import { SimpleGrid } from '@chakra-ui/core';
-import ContentItem from 'components/ContentItem';
+import { ContentItem } from 'components/ContentItem';
 import { useLocation } from 'react-router-dom';
 
-const ContentBox = () => {
+const _ContentBox = () => {
   const { store } = useStores();
   const { pathname } = useLocation();
 
@@ -30,4 +30,4 @@ const ContentBox = () => {
   );
 };
 
-export default observer(ContentBox);
+export const ContentBox = observer(_ContentBox);

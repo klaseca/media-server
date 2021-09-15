@@ -1,7 +1,7 @@
 import { Flex } from '@chakra-ui/core';
-import BreadcrumbRouter from 'components/BreadcrumbRouter';
-import Container from 'components/Container';
-import ContentBox from 'components/ContentBox';
+import { BreadcrumbRouter } from 'components/BreadcrumbRouter';
+import { Container } from 'components/Container';
+import { ContentBox } from 'components/ContentBox';
 
 const App = () => (
   <>

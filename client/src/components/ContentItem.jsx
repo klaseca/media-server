@@ -4,13 +4,13 @@ import {
   ScMenuButton,
   ScMenuItem,
 } from 'components/StyledComponents';
-import Folder from 'icons/Folder';
-import Options from 'icons/Options';
-import File from 'icons/File';
+import { Folder } from 'icons/Folder';
+import { Options } from 'icons/Options';
+import { File } from 'icons/File';
 import { concatPaths, createLink, createMenuItems } from 'utils/helpers';
 import { useHistory } from 'react-router-dom';
 
-const ContentItem = ({ store, isDir, children }) => {
+export const ContentItem = ({ store, isDir, children }) => {
   const history = useHistory();
   const { pathname } = history.location;
   const Icon = isDir ? <Folder /> : <File />;
@@ -21,7 +21,11 @@ const ContentItem = ({ store, isDir, children }) => {
 
   const cursor = isDir ? 'pointer' : 'default';
 
-  const menuItems = createMenuItems(isDir, store, createLink(pathname, children));
+  const menuItems = createMenuItems(
+    isDir,
+    store,
+    createLink(pathname, children)
+  );
 
   return (
     <ScContentItem>
@@ -59,5 +63,3 @@ const ContentItem = ({ store, isDir, children }) => {
     </ScContentItem>
   );
 };
-
-export default ContentItem;

@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { Breadcrumb, BreadcrumbItem, Icon, Flex } from '@chakra-ui/core';
 import styled from '@emotion/styled';
-import Container from './Container';
+import { Container } from './Container';
 import { Link } from 'react-router-dom';
 import { useBreadcrumb } from 'hooks/useBreadcrumb';
 
@@ -12,7 +12,7 @@ const ScBreadcrumb = styled(Breadcrumb)({
   display: 'flex',
 });
 
-const BreadcrumbRouter = () => {
+const _BreadcrumbRouter = () => {
   const { paths, isLastPath } = useBreadcrumb();
 
   return (
@@ -42,4 +42,4 @@ const BreadcrumbRouter = () => {
   );
 };
 
-export default observer(BreadcrumbRouter);
+export const BreadcrumbRouter = observer(_BreadcrumbRouter);
