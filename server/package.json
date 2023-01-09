@@ -2,10 +2,12 @@
   "name": "media-server",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "build/server.js",
+  "type": "module",
   "scripts": {
     "dev": "node esbuild.config.js",
-    "build": "cross-env NODE_ENV=production node esbuild.config.js"
+    "build": "cross-env NODE_ENV=production node esbuild.config.js",
+    "test": "node ./src/t.js"
   },
   "keywords": [],
   "author": "",
@@ -23,5 +25,8 @@
   "devDependencies": {
     "cross-env": "^7.0.2",
     "esbuild": "^0.16.11"
+  },
+  "imports": {
+    "#*": "./src/*"
   }
 }

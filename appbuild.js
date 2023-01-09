@@ -1,10 +1,13 @@
-const { spawn } = require('child_process');
-const { readdir, mkdir, copyFile } = require('fs/promises');
-const { resolve } = require('path');
+import { spawn } from 'node:child_process';
+import { readdir, mkdir, copyFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const copyDir = async (src, dest) => {
   await mkdir(dest, { recursive: true });
-  let entries = await readdir(src, { withFileTypes: true });
+  const entries = await readdir(src, { withFileTypes: true });
 
   for (const entry of entries) {
     const srcPath = resolve(src, entry.name);

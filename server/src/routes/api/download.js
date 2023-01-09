@@ -1,11 +1,11 @@
-import { stat } from 'fs/promises';
-import { createReadStream } from 'fs';
-import { extname } from 'path';
+import { stat } from 'node:fs/promises';
+import { createReadStream } from 'node:fs';
+import { extname } from 'node:path';
 import { contentType } from 'mime-types';
 import archiver from 'archiver';
 import Router from '@koa/router';
-import { publicDirs } from 'config/config';
-import { parseParams } from 'utils';
+import { publicDirs } from '#config/config.js';
+import { parseParams } from '#utils.js';
 
 const router = new Router();
 

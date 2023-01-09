@@ -1,6 +1,10 @@
-const { resolve } = require('path');
-const { writeFile } = require('fs/promises');
-const { build } = require('esbuild');
+import { resolve } from 'node:path';
+import { writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import { build } from 'esbuild';
+import { createCodeRunner } from './codeRunner.js';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -8,7 +12,7 @@ const absWorkingDir = resolve(__dirname, 'src');
 
 const outdir = resolve(__dirname, 'build');
 
-let server;
+const codeRunner = createCodeRunner();
 
 const watch = isProd
   ? false
@@ -18,9 +22,7 @@ const watch = isProd
           console.error('\nWatch build failed:', error);
         } else {
           console.log('\nWatch build succeeded');
-          const { text } = result.outputFiles[0];
-          server.close();
-          server = eval(text);
+          codeRunner.run(result.outputFiles[0].text);
         }
       },
     };
@@ -28,24 +30,32 @@ const watch = isProd
 build({
   entryPoints: ['server.js'],
   outdir,
+  outExtension: {
+    '.js': '.cjs',
+  },
+  alias: {
+    'src/*': '#*',
+  },
   bundle: true,
-  minify: isProd,
   platform: 'node',
+  format: 'cjs',
+  minify: isProd,
   watch,
   absWorkingDir,
   write: isProd,
   incremental: !isProd,
   metafile: isProd,
+  define: { 'import.meta.url': 'importMetaUrl' },
+  inject: ['import-meta-url-shim.js'],
 })
   .then(async (result) => {
     console.log('Build succeeded');
     if (!isProd) {
-      server = eval(result.outputFiles[0].text);
+      codeRunner.run(result.outputFiles[0].text);
     } else {
       await writeFile('meta.json', JSON.stringify(result.metafile, null, 2));
     }
   })
   .catch((error) => {
     console.error(error);
-    process.exit(1)
   });

@@ -1,7 +1,7 @@
 import Router from '@koa/router';
-import stream from './stream';
-import content from './content';
-import download from './download';
+import stream from './stream.js';
+import content from './content.js';
+import download from './download.js';
 
 const apiRouter = new Router();
 

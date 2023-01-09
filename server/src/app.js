@@ -1,11 +1,12 @@
+import { resolve } from 'node:path';
+import { createReadStream } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 import Koa from 'koa';
 import cors from '@koa/cors';
 import serve from 'koa-static';
-import { resolve } from 'path';
-import { createReadStream } from 'fs';
-import apiRouter from 'routes/api/apiRouter';
+import apiRouter from '#routes/api/apiRouter.js';
 
-const isProd = process.env.NODE_ENV === 'production' ? true : false;
+const isProd = process.env.NODE_ENV === 'production';
 
 const app = new Koa();
 
@@ -30,7 +31,7 @@ app.on('error', (error) => {
 app.use(cors());
 
 if (isProd) {
-  const staticFiles = resolve(__dirname, 'static');
+  const staticFiles = resolve(fileURLToPath(new URL('.', import.meta.url)), 'static');
 
   app.use(serve(staticFiles));
 

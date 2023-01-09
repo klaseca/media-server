@@ -1,0 +1,21 @@
+{
+  "name": "media-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "appbuild.js",
+  "type": "module",
+  "scripts": {
+    "build": "node ./appbuild.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klaseca/media-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/klaseca/media-server/issues"
+  },
+  "homepage": "https://github.com/klaseca/media-server#readme"
+}

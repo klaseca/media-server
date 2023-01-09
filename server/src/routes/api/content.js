@@ -1,8 +1,10 @@
-import { readdir } from 'fs/promises';
+import { readdir } from 'node:fs/promises';
 import Router from '@koa/router';
-import { publicDirs } from 'config/config';
-import { parseParams } from 'utils';
-import { orderBy } from 'lodash';
+import lodash from 'lodash';
+import { publicDirs } from '#config/config.js';
+import { parseParams } from '#utils.js';
+
+const { orderBy } = lodash;
 
 const router = new Router({ prefix: '/content' });
 
