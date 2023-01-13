@@ -1,12 +1,11 @@
 import { StrictMode } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from 'App';
-import * as serviceWorker from 'serviceWorker';
 import { ThemeProvider, theme, CSSReset } from '@chakra-ui/core';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import 'index.css';
 
-ReactDOM.render(
+createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
       <CSSReset />
@@ -16,8 +15,5 @@ ReactDOM.render(
         </Route>
       </Router>
     </ThemeProvider>
-  </StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );
-
-serviceWorker.unregister();
