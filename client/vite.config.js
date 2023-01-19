@@ -10,13 +10,7 @@ export default defineConfig({
     },
   },
   server: {
-    proxy: {
-      '^/(?!@vite/client|src.+|@react-refresh|node_modules.+|@id.+).+': {
-        target: 'http://localhost:3232',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
+    host: true,
   },
   plugins: [react()],
 });

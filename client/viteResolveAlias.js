@@ -6,7 +6,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const replaceExt = ['jsx', 'js'];
 
-const regex = new RegExp(`(?:.${replaceExt.join('|')})$`);
+const regex = new RegExp(`(?:.(?:${replaceExt.join('|')}))$`);
 
 const config = JSON.parse(
   readFileSync(fileURLToPath(new URL('./jsconfig.json', import.meta.url)))

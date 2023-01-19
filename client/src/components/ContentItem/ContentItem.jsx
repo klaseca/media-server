@@ -1,4 +1,6 @@
+import { useMemo } from 'react';
 import { Flex, Menu, MenuButton, MenuList } from '@chakra-ui/core';
+import { useHistory } from 'react-router-dom';
 import {
   ScContentItem,
   ScMenuButton,
@@ -7,29 +9,37 @@ import {
 import { Folder } from 'icons/Folder';
 import { Options } from 'icons/Options';
 import { File } from 'icons/File';
-import { concatPaths, createLink, createMenuItems } from 'utils/helpers';
-import { useHistory } from 'react-router-dom';
+import { useConfig } from 'contexts/ConfigContext';
+import { concatPaths, createLink, createMenuItems } from './contentItemHelpers';
 
-export const ContentItem = ({ store, isDir, children }) => {
+export const ContentItem = ({ isDir, children }) => {
   const history = useHistory();
+
+  const config = useConfig();
+
   const { pathname } = history.location;
+
   const Icon = isDir ? <Folder /> : <File />;
 
-  const openDir = ({ target: { textContent } }) => {
-    history.push(concatPaths(pathname, textContent));
+  const openDir = () => {
+    history.push(concatPaths(pathname, children));
   };
 
   const cursor = isDir ? 'pointer' : 'default';
 
-  const menuItems = createMenuItems(
-    isDir,
-    store,
-    createLink(pathname, children)
+  const menuItems = useMemo(
+    () => createMenuItems(config.apiUrl, isDir, createLink(pathname, children)),
+    [config.apiUrl, isDir, pathname, children]
   );
 
   return (
     <ScContentItem>
-      <Flex minW='0' flexGrow='1' cursor={cursor} onClick={openDir}>
+      <Flex
+        minW='0'
+        flexGrow='1'
+        cursor={cursor}
+        onClick={isDir ? openDir : undefined}
+      >
         <Flex
           boxSizing='border-box'
           p='5px 10px'

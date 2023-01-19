@@ -58,7 +58,7 @@ const build = async () => {
   );
 
   await copyDir(
-    resolve(__dirname, 'client/build'),
+    resolve(__dirname, 'client/dist'),
     resolve(__dirname, 'appbuild/static')
   );
 };

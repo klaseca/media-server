@@ -31,7 +31,10 @@ app.on('error', (error) => {
 app.use(cors());
 
 if (isProd) {
-  const staticFiles = resolve(fileURLToPath(new URL('.', import.meta.url)), 'static');
+  const staticFiles = resolve(
+    fileURLToPath(new URL('.', import.meta.url)),
+    'static'
+  );
 
   app.use(serve(staticFiles));
 

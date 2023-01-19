@@ -1,16 +1,20 @@
 import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useStores } from 'hooks/useStores';
 import { SimpleGrid } from '@chakra-ui/core';
-import { ContentItem } from 'components/ContentItem';
 import { useLocation } from 'react-router-dom';
+import { ContentItem } from 'components/ContentItem/ContentItem';
+import { useStore } from 'hooks/useStore';
+import { useApi } from 'contexts/ApiContext';
 
 const _ContentBox = () => {
-  const { store } = useStores();
+  const store = useStore();
+
   const { pathname } = useLocation();
 
+  const api = useApi();
+
   useEffect(() => {
-    store.loadContent(pathname);
+    api.loadContent(pathname).then(store.setContents);
   }, [store, pathname]);
 
   return (
