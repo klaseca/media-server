@@ -5,8 +5,9 @@ import Koa from 'koa';
 import cors from '@koa/cors';
 import serve from 'koa-static';
 import apiRouter from '#routes/api/apiRouter.js';
+import { config } from '#config.js';
 
-const isProd = process.env.NODE_ENV === 'production';
+const isProd = config.env === 'production';
 
 const app = new Koa();
 

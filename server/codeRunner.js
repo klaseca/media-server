@@ -13,7 +13,7 @@ export const createCodeRunner = () => {
 
       node.stdin.end(code);
 
-      node.on('error', (code) => console.error('alo', code));
+      node.on('error', (error) => console.error(error));
     },
     stop() {
       node?.kill();

@@ -1,16 +1,17 @@
 import { resolve } from 'node:path';
 import { writeFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
 import { build } from 'esbuild';
 import { createCodeRunner } from './codeRunner.js';
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url));
-
 const isProd = process.env.NODE_ENV === 'production';
 
-const absWorkingDir = resolve(__dirname, 'src');
-
-const outdir = resolve(__dirname, 'build');
+const defineEnvVariables = ['NODE_ENV', 'PORT'].reduce(
+  (vals, val) =>
+    Object.assign(vals, {
+      [`process.env.${val}`]: JSON.stringify(process.env[val]),
+    }),
+  {}
+);
 
 const codeRunner = createCodeRunner();
 
@@ -29,7 +30,7 @@ const watch = isProd
 
 build({
   entryPoints: ['server.js'],
-  outdir,
+  outdir: resolve('build'),
   outExtension: {
     '.js': '.cjs',
   },
@@ -41,11 +42,14 @@ build({
   format: 'cjs',
   minify: isProd,
   watch,
-  absWorkingDir,
+  absWorkingDir: resolve('src'),
   write: isProd,
   incremental: !isProd,
   metafile: isProd,
-  define: { 'import.meta.url': 'importMetaUrl' },
+  define: Object.assign(
+    { 'import.meta.url': 'importMetaUrl' },
+    defineEnvVariables
+  ),
   inject: ['import-meta-url-shim.js'],
 })
   .then(async (result) => {

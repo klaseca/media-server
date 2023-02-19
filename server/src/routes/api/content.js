@@ -1,7 +1,7 @@
 import { readdir } from 'node:fs/promises';
 import Router from '@koa/router';
 import lodash from 'lodash';
-import { publicDirs } from '#config/config.js';
+import { config } from '#config.js';
 import { parseParams } from '#utils.js';
 
 const { orderBy } = lodash;
@@ -9,7 +9,7 @@ const { orderBy } = lodash;
 const router = new Router({ prefix: '/content' });
 
 router.get('/', async (ctx) => {
-  const contents = publicDirs.map(({ alias }) => ({
+  const contents = config.publicDirs.map(({ alias }) => ({
     name: alias,
     isDir: true,
   }));
@@ -19,7 +19,7 @@ router.get('/', async (ctx) => {
 
 router.get('/:path', async (ctx) => {
   const [alias, parsePath] = parseParams(ctx.params.path);
-  const publicDir = publicDirs.find((dir) => dir.alias === alias);
+  const publicDir = config.publicDirs.find((dir) => dir.alias === alias);
   if (!publicDir) {
     throw new Error('Incorrect public folder');
   }

@@ -3,7 +3,7 @@ import { createReadStream } from 'node:fs';
 import { extname } from 'node:path';
 import { contentType } from 'mime-types';
 import Router from '@koa/router';
-import { publicDirs } from '#config/config.js';
+import { config } from '#config.js';
 import { parseParams } from '#utils.js';
 
 const router = new Router();
@@ -11,7 +11,7 @@ const router = new Router();
 router.get('/stream/:path', async (ctx) => {
   try {
     const [alias, parsePath] = parseParams(ctx.params.path);
-    const publicDir = publicDirs.find((dir) => dir.alias === alias);
+    const publicDir = config.publicDirs.find((dir) => dir.alias === alias);
     if (!publicDir) {
       throw new Error('Incorrect public folder');
     }

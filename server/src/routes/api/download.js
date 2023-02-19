@@ -4,14 +4,14 @@ import { extname } from 'node:path';
 import { contentType } from 'mime-types';
 import archiver from 'archiver';
 import Router from '@koa/router';
-import { publicDirs } from '#config/config.js';
+import { config } from '#config.js';
 import { parseParams } from '#utils.js';
 
 const router = new Router();
 
 router.get('/downloadzip/:path', async (ctx) => {
   const [alias, parsePath] = parseParams(ctx.params.path);
-  const publicDir = publicDirs.find((dir) => dir.alias === alias);
+  const publicDir = config.publicDirs.find((dir) => dir.alias === alias);
   if (!publicDir) {
     throw new Error('Incorrect public folder');
   }
@@ -27,7 +27,9 @@ router.get('/downloadzip/:path', async (ctx) => {
 
   ctx.set({
     'Content-Type': 'application/zip',
-    'Content-disposition': `attachment; filename=${encodeURIComponent(fileName)}.zip`,
+    'Content-disposition': `attachment; filename=${encodeURIComponent(
+      fileName
+    )}.zip`,
   });
 
   ctx.body = archive;
@@ -36,7 +38,7 @@ router.get('/downloadzip/:path', async (ctx) => {
 router.get('/download/:path', async (ctx) => {
   try {
     const [alias, parsePath] = parseParams(ctx.params.path);
-    const publicDir = publicDirs.find((dir) => dir.alias === alias);
+    const publicDir = config.publicDirs.find((dir) => dir.alias === alias);
     if (!publicDir) {
       throw new Error('Incorrect public folder');
     }
@@ -49,7 +51,9 @@ router.get('/download/:path', async (ctx) => {
     ctx.set({
       'Content-Length': total,
       'Content-Type': contentType(extname(pathToFile)),
-      'Content-disposition': `attachment; filename=${encodeURIComponent(fileName)}`,
+      'Content-disposition': `attachment; filename=${encodeURIComponent(
+        fileName
+      )}`,
     });
 
     ctx.status = 200;

@@ -5,9 +5,7 @@ import { aliases } from './viteResolveAlias';
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
-    alias: {
-      ...aliases,
-    },
+    alias: aliases,
   },
   server: {
     host: true,
