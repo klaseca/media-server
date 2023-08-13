@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "node esbuild.config.js",
-    "build": "cross-env NODE_ENV=production node esbuild.config.js",
-    "test": "node ./src/t.js"
+    "build": "cross-env NODE_ENV=production node esbuild.config.js"
   },
   "keywords": [],
   "author": "",

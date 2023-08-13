@@ -1,17 +1,25 @@
-import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { writeFile } from 'node:fs/promises';
 import { build } from 'esbuild';
 import { createCodeRunner } from './codeRunner.js';
 
 const isProd = process.env.NODE_ENV === 'production';
 
-const defineEnvVariables = ['NODE_ENV', 'PORT'].reduce(
-  (vals, val) =>
-    Object.assign(vals, {
-      [`process.env.${val}`]: JSON.stringify(process.env[val]),
-    }),
-  {}
-);
+const envVariables = ['NODE_ENV', 'PORT'].reduce((vals, val) => {
+  const envVal = process.env[val];
+
+  if (envVal != null) {
+    vals[`process.env.${val}`] = JSON.stringify(process.env[val]);
+  }
+
+  return vals;
+}, {});
+
+const createRequirePath = isProd ? 'import.meta.url' : `'${import.meta.url}'`;
+
+const importMetaUrlShim = isProd
+  ? ''
+  : `var importMetaUrl = '${import.meta.url}';`;
 
 const codeRunner = createCodeRunner();
 
@@ -29,28 +37,31 @@ const watch = isProd
     };
 
 build({
-  entryPoints: ['server.js'],
-  outdir: resolve('build'),
+  entryPoints: ['./server.js'],
+  outdir: fileURLToPath(new URL('./build', import.meta.url)),
   outExtension: {
-    '.js': '.cjs',
+    '.js': '.mjs',
   },
   alias: {
     'src/*': '#*',
   },
   bundle: true,
   platform: 'node',
-  format: 'cjs',
+  format: 'esm',
   minify: isProd,
   watch,
-  absWorkingDir: resolve('src'),
+  absWorkingDir: fileURLToPath(new URL('./src', import.meta.url)),
   write: isProd,
   incremental: !isProd,
   metafile: isProd,
+  banner: {
+    js: `${importMetaUrlShim}var require = (await import('node:module')).createRequire(${createRequirePath});`,
+  },
   define: Object.assign(
-    { 'import.meta.url': 'importMetaUrl' },
-    defineEnvVariables
+    {},
+    Boolean(importMetaUrlShim) && { 'import.meta.url': 'importMetaUrl' },
+    envVariables
   ),
-  inject: ['import-meta-url-shim.js'],
 })
   .then(async (result) => {
     console.log('Build succeeded');
@@ -60,6 +71,4 @@ build({
       await writeFile('meta.json', JSON.stringify(result.metafile, null, 2));
     }
   })
-  .catch((error) => {
-    console.error(error);
-  });
+  .catch(console.error);

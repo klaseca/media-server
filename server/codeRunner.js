@@ -7,13 +7,13 @@ export const createCodeRunner = () => {
     run(code) {
       this.stop();
 
-      node = spawn('node', [], {
+      node = spawn('node', ['--input-type=module'], {
         stdio: ['pipe', 'inherit', 'inherit'],
       });
 
       node.stdin.end(code);
 
-      node.on('error', (error) => console.error(error));
+      node.on('error', console.error);
     },
     stop() {
       node?.kill();

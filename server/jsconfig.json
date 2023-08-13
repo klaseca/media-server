@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "#*": ["src/*"]
+      "#*": ["./*"]
     },
     "moduleResolution": "nodenext"
   },
-  "include": ["src"]
 }
