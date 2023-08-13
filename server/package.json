@@ -16,9 +16,9 @@
     "@koa/router": "^9.4.0",
     "archiver": "^5.0.2",
     "dotenv": "^8.2.0",
+    "just-order-by": "^1.0.0",
     "koa": "^2.13.0",
     "koa-static": "^5.0.0",
-    "lodash": "^4.17.20",
     "mime-types": "^2.1.27"
   },
   "devDependencies": {

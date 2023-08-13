@@ -11,11 +11,15 @@ const router = new Router();
 
 router.get('/downloadzip/:path', async (ctx) => {
   const [alias, parsePath] = parseParams(ctx.params.path);
+
   const publicDir = config.publicDirs.find((dir) => dir.alias === alias);
+
   if (!publicDir) {
     throw new Error('Incorrect public folder');
   }
+
   const pathToDir = `${publicDir.path}/${parsePath}`;
+
   const fileName = parsePath.split('/').pop();
 
   const archive = archiver('zip', {
@@ -23,6 +27,7 @@ router.get('/downloadzip/:path', async (ctx) => {
   });
 
   archive.directory(pathToDir, false);
+
   archive.finalize();
 
   ctx.set({
@@ -36,31 +41,33 @@ router.get('/downloadzip/:path', async (ctx) => {
 });
 
 router.get('/download/:path', async (ctx) => {
-  try {
-    const [alias, parsePath] = parseParams(ctx.params.path);
-    const publicDir = config.publicDirs.find((dir) => dir.alias === alias);
-    if (!publicDir) {
-      throw new Error('Incorrect public folder');
-    }
-    const pathToFile = `${publicDir.path}/${parsePath}`;
-    const statFile = await stat(pathToFile);
-    const fileName = parsePath.split('/').pop();
+  const [alias, parsePath] = parseParams(ctx.params.path);
 
-    const total = statFile.size;
+  const publicDir = config.publicDirs.find((dir) => dir.alias === alias);
 
-    ctx.set({
-      'Content-Length': total,
-      'Content-Type': contentType(extname(pathToFile)),
-      'Content-disposition': `attachment; filename=${encodeURIComponent(
-        fileName
-      )}`,
-    });
-
-    ctx.status = 200;
-    ctx.body = createReadStream(pathToFile);
-  } catch (error) {
-    throw error;
+  if (!publicDir) {
+    throw new Error('Incorrect public folder');
   }
+
+  const pathToFile = `${publicDir.path}/${parsePath}`;
+
+  const statFile = await stat(pathToFile);
+
+  const fileName = parsePath.split('/').pop();
+
+  const total = statFile.size;
+
+  ctx.set({
+    'Content-Length': total,
+    'Content-Type': contentType(extname(pathToFile)),
+    'Content-disposition': `attachment; filename=${encodeURIComponent(
+      fileName
+    )}`,
+  });
+
+  ctx.status = 200;
+
+  ctx.body = createReadStream(pathToFile);
 });
 
 export default router;
