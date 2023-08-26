@@ -1,3 +1,4 @@
+import { networkInterfaces } from 'node:os';
 import orderBy from 'just-order-by';
 
 export const parseParams = (params) => {
@@ -13,3 +14,21 @@ export const sortContents = (contents) =>
     { property: 'isDir', order: 'desc' },
     { property: 'name', order: 'asc' },
   ]);
+
+export const makeUrl = (protocol, address, port) => {
+  return `${protocol}://${
+    ['::', undefined].includes(address) ? 'localhost' : address
+  }:${port}`;
+};
+
+export const getNetworkAddresses = () => {
+  return Object.values(networkInterfaces())
+    .flat()
+    .reduce((addresses, { family, address, internal }) => {
+      if (family === 'IPv4' && address !== '127.0.0.1' && !internal) {
+        addresses.push(address);
+      }
+
+      return addresses;
+    }, []);
+};
