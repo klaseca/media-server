@@ -1,11 +1,12 @@
 import { fileURLToPath } from 'node:url';
 import { writeFile } from 'node:fs/promises';
 import { build } from 'esbuild';
+import 'dotenv/config';
 import { createCodeRunner } from './codeRunner.js';
 
 const isProd = process.env.NODE_ENV === 'production';
 
-const envVariables = ['NODE_ENV', 'PORT'].reduce((vals, val) => {
+const envVariables = ['NODE_ENV', 'PORT', 'PUBLIC_DIRS'].reduce((vals, val) => {
   const envVal = process.env[val];
 
   if (envVal != null) {
@@ -38,7 +39,7 @@ const watch = isProd
 
 build({
   entryPoints: ['./server.js'],
-  outdir: fileURLToPath(new URL('./build', import.meta.url)),
+  outdir: fileURLToPath(new URL('./dist', import.meta.url)),
   outExtension: {
     '.js': '.mjs',
   },

@@ -1,6 +1,7 @@
 {
-  "name": "media-server",
+  "name": "server",
   "version": "1.0.0",
+  "private": true,
   "description": "",
   "main": "build/server.js",
   "type": "module",
@@ -12,18 +13,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@koa/cors": "^3.1.0",
-    "@koa/router": "^9.4.0",
-    "archiver": "^5.0.2",
-    "dotenv": "^8.2.0",
-    "just-order-by": "^1.0.0",
-    "koa": "^2.13.0",
-    "koa-static": "^5.0.0",
-    "mime-types": "^2.1.27"
+    "@koa/cors": "3.4.3",
+    "@koa/router": "9.4.0",
+    "archiver": "5.3.2",
+    "dotenv": "8.6.0",
+    "just-order-by": "1.0.0",
+    "koa": "2.14.2",
+    "koa-static": "5.0.0",
+    "mime-types": "2.1.35"
   },
   "devDependencies": {
-    "cross-env": "^7.0.2",
-    "esbuild": "^0.16.11"
+    "cross-env": "7.0.3",
+    "esbuild": "0.16.17"
   },
   "imports": {
     "#*": "./src/*"

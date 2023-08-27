@@ -1,4 +1,4 @@
-import { resolve } from 'node:path';
+import { join } from 'node:path';
 import { createReadStream } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import Koa from 'koa';
@@ -32,7 +32,7 @@ app.on('error', (error) => {
 app.use(cors());
 
 if (isProd) {
-  const staticFiles = resolve(
+  const staticFiles = join(
     fileURLToPath(new URL('.', import.meta.url)),
     'static'
   );
@@ -41,7 +41,7 @@ if (isProd) {
 
   app.use(async (ctx, next) => {
     ctx.type = 'html';
-    ctx.body = createReadStream(resolve(staticFiles, 'index.html'));
+    ctx.body = createReadStream(join(staticFiles, 'index.html'));
     await next();
   });
 }

@@ -1,17 +1,19 @@
 import { spawn } from 'node:child_process';
 import { readdir, mkdir, copyFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 const copyDir = async (src, dest) => {
   await mkdir(dest, { recursive: true });
+
   const entries = await readdir(src, { withFileTypes: true });
 
   for (const entry of entries) {
-    const srcPath = resolve(src, entry.name);
-    const destPath = resolve(dest, entry.name);
+    const srcPath = join(src, entry.name);
+
+    const destPath = join(dest, entry.name);
 
     entry.isDirectory()
       ? await copyDir(srcPath, destPath)
@@ -27,8 +29,9 @@ const run = ({ command, args, options, name }) => {
       console.log(`${name}: ${data}`);
     });
 
-    taskProcess.on('close', () => resolve());
-    taskProcess.on('error', (error) => reject(error));
+    taskProcess.on('close', resolve);
+
+    taskProcess.on('error', reject);
   });
 };
 
@@ -38,29 +41,27 @@ const build = async () => {
   const tasks = [
     {
       command,
-      args: ['run', 'build'],
-      options: { cwd: resolve(__dirname, 'client') },
+      args: ['run', 'build:client'],
       name: 'client',
     },
     {
       command,
-      args: ['run', 'build'],
-      options: { cwd: resolve(__dirname, 'server') },
+      args: ['run', 'build:server'],
       name: 'server',
     },
   ];
 
-  await Promise.all(tasks.map((task) => run(task)));
+  await Promise.all(tasks.map(run));
 
   await copyDir(
-    resolve(__dirname, 'server/build'),
-    resolve(__dirname, 'appbuild')
+    join(__dirname, 'apps/server/dist'),
+    join(__dirname, 'appbuild')
   );
 
   await copyDir(
-    resolve(__dirname, 'client/dist'),
-    resolve(__dirname, 'appbuild/static')
+    join(__dirname, 'apps/client/dist'),
+    join(__dirname, 'appbuild/static')
   );
 };
 
-build().catch((error) => console.error(error));
+build().catch(console.error);

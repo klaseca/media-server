@@ -1,4 +1,4 @@
-import { resolve, join } from 'node:path';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readFileSync, readdirSync } from 'node:fs';
 
@@ -12,7 +12,7 @@ const config = JSON.parse(
   readFileSync(fileURLToPath(new URL('./jsconfig.json', import.meta.url)))
 );
 
-const baseUrl = resolve(__dirname, config.compilerOptions.baseUrl);
+const baseUrl = join(__dirname, config.compilerOptions.baseUrl);
 
 export const aliases = readdirSync(baseUrl, { withFileTypes: true })
   .map((dirent) => dirent.name.replace(regex, ''))

@@ -1,5 +1,5 @@
 import { createServer } from 'node:http';
-import 'dotenv/config.js';
+import 'dotenv/config';
 import app from '#app.js';
 import { config } from '#config.js';
 import { getNetworkAddresses, makeUrl } from '#utils.js';

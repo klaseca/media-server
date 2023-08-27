@@ -5,6 +5,8 @@ import { ContentBox } from 'components/ContentBox';
 import { ApiProvider } from 'contexts/ApiContext';
 import { ConfigProvider } from 'contexts/ConfigContext';
 
+console.log('t');
+
 const App = () => {
   return (
     <ConfigProvider>

@@ -5,8 +5,15 @@
   "main": "appbuild.js",
   "type": "module",
   "scripts": {
-    "build": "node ./appbuild.js"
+    "build": "node ./appbuild.js",
+    "build:client": "npm run build -w client",
+    "dev:client": "npm run dev -w client",
+    "build:server": "npm run build -w server",
+    "dev:server": "npm run dev -w server"
   },
+  "workspaces": [
+    "./apps/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/klaseca/media-server.git"
